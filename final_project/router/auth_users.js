@@ -42,7 +42,7 @@ regd_users.post("/login", (req, res) => {
 
     req.session.user = user;
 
-    return res.status(200).send("User successfully logged in");
+    return res.status(200).send("Customer successfully logged in");
 
 
 });
@@ -57,7 +57,7 @@ regd_users.put("/auth/review/:isbn", (req, res) => {
         const reviews = books[isbn].reviews
         reviews[req.session.user.name] = req.body.review
         books[isbn].reviews = reviews
-        res.send(`Successfully added/updated the review for the book with ISBN ${isbn}`)
+        res.send(`The review for the book with ISBN ${isbn} has been added/updated.`)
     } else {
         res.send(`Book with ISBN ${isbn} does not exist`)
     }
@@ -72,7 +72,7 @@ regd_users.delete("/auth/review/:isbn", (req, res) => {
         if (reviews[req.session.user.name]) {
             delete reviews[req.session.user.name]
             books[isbn].reviews = reviews
-            res.send(`Successfully deleted the review for the book with ISBN ${isbn}`)
+            res.send(`Reviews for the ISBN ${isbn} posted by the user ${req.session.user.name} deleted`)
         } else {
             res.send(`No review found for the book with ISBN ${isbn} for the user ${req.session.user.name}`)
         }

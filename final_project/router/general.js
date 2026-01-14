@@ -19,7 +19,7 @@ public_users.post("/register", (req, res) => {
     if (username && password) {
         if (!users[username]) {
             users[username] = password;
-            res.send(`Successfully registered the user ${username}`)
+            res.send(`Customer successfully registred. Now you can login`)
         } else {
             res.send(`User ${username} already exists`)
         }
@@ -32,7 +32,7 @@ public_users.post("/register", (req, res) => {
 public_users.get('/', function (req, res) {
     //Write your code here
     new Promise((resolve, reject) => {
-        resolve(books);
+        resolve({ "books": Object.values(books) });
     }).then((data) => res.send(data));
 });
 
@@ -70,7 +70,7 @@ public_users.get('/author/:author', function (req, res) {
             }
         }
         if (filtered_authors.length > 0) {
-            resolve(filtered_authors);
+            resolve({"booksbyauthor": filtered_authors});
         } else {
             reject({status: 404, message: `No books found for author ${author}`});
         }
@@ -93,7 +93,7 @@ public_users.get('/title/:title', function (req, res) {
             }
         }
         if (filtered_titles.length > 0) {
-            resolve(filtered_titles);
+            resolve({"booksbytitle": filtered_titles});
         } else {
             reject({status: 404, message: `Book with title ${title} not found`});
         }
