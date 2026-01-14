@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 let books = require("./booksdb.js");
 const regd_users = express.Router();
 
-let users = [];
+let users = {};
 
 const isValid = (username) => { //returns boolean
 //write code to check is the username is valid
@@ -23,12 +23,12 @@ const authenticatedUser = (username, password) => { //returns boolean
 regd_users.post("/login", (req, res) => {
     //Write your code here
     const user = req.body.user;
-    if (!user) {
-        return res.status(404).json({message: "Body Empty"});
+    if (!user || !user.name || !user.password) {
+        return res.status(400).json({message: "Invalid login request. Username and password are required."});
     }
 
     if (!authenticatedUser(user.name, user.password)) {
-        return res.status(401).json({message: `Invalid credentials or User ${user.name} does not exists`});
+        return res.status(401).json({message: `Invalid credentials or User ${user.name} does not exist`});
     }
 
     // Generate JWT access token
